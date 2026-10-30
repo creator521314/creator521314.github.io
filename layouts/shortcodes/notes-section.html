@@ -1,0 +1,18 @@
+{{- $notes := where site.RegularPages "Section" "notes" -}}
+{{- if $notes }}
+<section id="notes">
+  <h2>文章</h2>
+  <p class="section-note">零散的想法、踩坑记录，以及还没长成项目的东西。</p>
+  <ul class="notes">
+    {{- range first 3 $notes.ByDate.Reverse }}
+    <li>
+      <a href="{{ .RelPermalink }}">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+        <span class="note-title">{{ .Title }}</span>
+      </a>
+    </li>
+    {{- end }}
+  </ul>
+  <p class="section-more"><a href="{{ "/notes/" | relURL }}">全部文章 →</a></p>
+</section>
+{{- end }}

@@ -171,3 +171,117 @@ footer {
   html { scroll-behavior: auto; }
   * { transition: none !important; }
 }
+
+/* ---------- 顶栏导航 ---------- */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+.nav a { color: var(--muted); font-size: .9rem; }
+.nav a:hover { color: var(--accent); text-decoration: none; }
+
+/* ---------- 文章列表 ---------- */
+.page-title {
+  margin: 0 0 .5rem;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  line-height: 1.2;
+  letter-spacing: -.02em;
+}
+.section-intro {
+  margin-bottom: 1.75rem;
+  color: var(--muted);
+}
+.notes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+.notes li { border-bottom: 1px solid var(--border); }
+.notes a {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: .85rem .3rem;
+  color: var(--text);
+}
+.notes a:hover { background: var(--accent-soft); text-decoration: none; }
+.notes time {
+  flex: none;
+  color: var(--muted);
+  font-size: .82rem;
+  font-variant-numeric: tabular-nums;
+}
+.notes .note-title { font-weight: 550; }
+.section-more { margin: .9rem 0 0; font-size: .9rem; }
+
+/* ---------- 文章正文 ---------- */
+code, pre {
+  font-family: ui-monospace, SFMono-Regular, "Maple Mono CN", Menlo, Consolas, monospace;
+}
+.note h1 {
+  margin: 0 0 .4rem;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  line-height: 1.25;
+  letter-spacing: -.02em;
+}
+.note-meta {
+  margin-bottom: 2.25rem;
+  color: var(--muted);
+  font-size: .85rem;
+  font-variant-numeric: tabular-nums;
+}
+.note h2 {
+  margin: 2.2rem 0 .7rem;
+  font-size: 1.2rem;
+  font-weight: 650;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--text);
+}
+.note h3 {
+  margin: 1.6rem 0 .5rem;
+  font-size: 1.02rem;
+  font-weight: 620;
+}
+.note ul, .note ol { margin: 0 0 1rem; padding-left: 1.35rem; }
+.note li { margin-bottom: .35rem; }
+.note blockquote {
+  margin: 1.3rem 0;
+  padding: .15rem 0 .15rem 1rem;
+  border-left: 3px solid var(--border);
+  color: var(--muted);
+}
+.note :not(pre) > code {
+  padding: .08em .38em;
+  background: var(--accent-soft);
+  border-radius: 5px;
+  font-size: .88em;
+}
+.note pre {
+  margin: 1.2rem 0;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: .85rem;
+  line-height: 1.7;
+}
+.note pre code { padding: 0; background: none; }
+.note img { max-width: 100%; height: auto; border-radius: 12px; }
+.note hr { margin: 2rem 0; border: 0; border-top: 1px solid var(--border); }
+.note table { width: 100%; margin: 1rem 0; border-collapse: collapse; font-size: .9rem; }
+.note th, .note td { padding: .5rem .6rem; border-bottom: 1px solid var(--border); text-align: left; }
+
+/* ---------- 返回链接 ---------- */
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  margin-bottom: 1.5rem;
+  color: var(--muted);
+  font-size: .9rem;
+}
+.back:hover { color: var(--accent); text-decoration: none; }

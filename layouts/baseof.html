@@ -22,8 +22,11 @@
   <div class="wrap">
     <header>
       <a class="brand" href="{{ "/" | relURL }}">{{ site.Title }}</a>
-      <button class="theme-toggle" id="theme-toggle" type="button"
-              aria-label="切换深色/浅色模式" title="切换深色/浅色模式">◐</button>
+      <nav class="nav">
+        <a href="{{ "/notes/" | relURL }}">文章</a>
+        <button class="theme-toggle" id="theme-toggle" type="button"
+                aria-label="切换深色/浅色模式" title="切换深色/浅色模式">◐</button>
+      </nav>
     </header>
 
     <main>{{ block "main" . }}{{ end }}</main>

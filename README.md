@@ -1,7 +1,7 @@
 # Serene Walker · 个人主页
 
-用 Hugo 构建、由 GitHub Actions 发布到 GitHub Pages 的静态站点。首页是个人简介与项目列表；
-每个项目一个页面，`static/` 里附可直接查看 / 下载的原始文件。
+用 Hugo 构建、由 GitHub Actions 发布到 GitHub Pages 的静态站点。首页是个人简介、项目列表与最近文章；
+文章用 Markdown 写，项目页里附可直接查看 / 下载的原始文件。
 
 ## 目录结构
 
@@ -11,16 +11,26 @@
 ├── layouts/
 │   ├── baseof.html              # 全站骨架：head、顶栏、页脚、CSS/JS 引入
 │   ├── home.html                # 首页内容包装
-│   └── page.html                # 普通页面内容包装
+│   ├── page.html                # 项目页 / 查看器的内容包装
+│   ├── note.html                # 文章正文（标题 + 日期 + 正文）
+│   ├── section.html             # /notes/ 列表页
+│   └── shortcodes/
+│       └── notes-section.html   # 首页「文章」区块（无文章时整块不渲染）
 ├── content/
-│   ├── _index.html              # 首页（front matter + 手写 HTML）
-│   ├── projects/arctic-ink.html # 项目详情页
+│   ├── _index.html              # 首页
+│   ├── notes/
+│   │   ├── _index.md            # /notes/ 的说明
+│   │   └── <日期>-<slug>.md     # 文章，脚本生成
+│   ├── projects/
+│   │   ├── _index.html          # 抑制 /projects/ 自动列表页
+│   │   └── arctic-ink.html      # 项目详情页
 │   └── viewer.html              # 通用代码查看器
 ├── static/
 │   ├── assets/css/              # base / home / project / viewer
 │   ├── assets/js/               # site.js（主题）/ viewer.js（查看器）
 │   ├── assets/arctic-ink/       # 页面内嵌用图（WebP）
 │   └── projects/arctic-ink/files/   # 可下载的原始文件，原样发布
+├── scripts/new-note.sh          # 新建文章的脚本
 ├── .github/workflows/pages.yml  # 构建 + 发布
 └── README.md
 ```
@@ -29,7 +39,7 @@
 
 推送 `main` 后由 `.github/workflows/pages.yml` 完成：检出 → 安装 Hugo 0.169.0 extended →
 `hugo --minify --gc` → 上传 artifact → `deploy-pages`。仓库 **Settings → Pages** 的
-Source 需要是 **GitHub Actions**（已配置）。
+Source 是 **GitHub Actions**，不要再改回分支发布。
 
 `public/` 是构建产物，不入库（见 `.gitignore`）。
 
@@ -40,9 +50,40 @@ hugo server        # http://localhost:1313
 hugo --minify      # 产物在 public/
 ```
 
+## 发表文章
+
+一条命令生成新文章：
+
+```bash
+./scripts/new-note.sh "标题" [slug]
+```
+
+- 生成 `content/notes/<日期>-<slug>.md`，front matter 已填好 `title`、`date`、`layout: note`、`draft: false`。
+- 不传 slug 时从标题生成；中文标题会退化成 `note`，建议顺手给个英文 slug。
+- 同一天重名会自动加 `-2`，不会覆盖。
+- 线上地址是 `/notes/<日期>-<slug>/`。
+
+然后编辑正文（Markdown），写完：
+
+```bash
+git add -A
+git commit -m "note: 标题"
+git push
+```
+
+约 1 分钟后自动发布。首页的「文章」区显示最近 3 篇，`/notes/` 是全部列表，顶栏有入口。
+
+约定：
+
+- 排序按 front matter 的 `date` 倒序；`draft: true` 的文章不会被构建。
+- 代码块用中性样式（没有语法高亮），深浅色都跟随站点配色。
+- 图片暂不支持上传流程：临时可以放在 `static/assets/`，正文里写 `![说明](/assets/xxx.png)`；
+  以后接图床，只需要把正文里的图片地址换掉。
+
 ## 页面约定
 
 - 页面正文是 `content/**.html`：front matter 写标题、描述和额外资源，正文直接写 HTML。
+- 文章是 `content/notes/*.md`，由 Hugo 渲染 Markdown。
 - `hugo.toml` 里 `[security] allowContent` 放开了 html 内容格式（Hugo 默认禁止 HTML 内容）。
 - 通用 head / 顶栏 / 页脚在 `layouts/baseof.html`，页面内容经 `block "main"` 注入。
 - 站内链接写根路径（`/assets/...`），站点部署在域名根目录。
