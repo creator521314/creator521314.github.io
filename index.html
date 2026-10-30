@@ -146,17 +146,7 @@
       .hero { padding: 2.5rem 0 2rem; }
     }
   </style>
-  <script>
-    // 提前应用主题，避免闪白/闪黑
-    (function () {
-      try {
-        var saved = localStorage.getItem('theme');
-        if (saved === 'light' || saved === 'dark') {
-          document.documentElement.dataset.theme = saved;
-        }
-      } catch (e) {}
-    })();
-  </script>
+  <script src="site.js"></script>
 </head>
 <body>
   <div class="wrap">
@@ -198,14 +188,14 @@
         <h2>项目</h2>
         <p class="section-note">一些自己动手做的东西。</p>
         <div class="projects">
-          <a class="project featured" href="projects/arctic-ink.html">
+          <a class="project featured" href="projects/arctic-ink/">
             <img class="project-thumb" src="assets/arctic-ink/thumb.webp"
                  width="720" height="416" decoding="async"
                  alt="Arctic Ink 壁纸预览：从深青绿过渡到靛蓝的冷调渐变">
             <div class="project-body">
               <span class="project-tag">桌面环境 · GNOME</span>
               <h3>Arctic Ink<span class="arrow" aria-hidden="true">↗</span></h3>
-              <p>给 Arch Linux + GNOME 51 写的一套冷调深色桌面方案：青绿强调色、Inter + 思源黑体、自绘壁纸，以及一条命令就能回滚的安装脚本。</p>
+              <p>给 Arch Linux + GNOME 51 写的一套冷调深色桌面方案：青绿强调色、Inter + 思源黑体、自绘壁纸；安装脚本与壁纸都可以直接下载。</p>
             </div>
           </a>
           <!-- 追加项目时，复制上面这个 <a class="project ..."> 块，把链接换成详情页或仓库地址 -->
@@ -229,34 +219,5 @@
     </footer>
   </div>
 
-  <script>
-    (function () {
-      var root = document.documentElement;
-      var btn = document.getElementById('theme-toggle');
-      var media = window.matchMedia('(prefers-color-scheme: dark)');
-
-      function current() {
-        return root.dataset.theme || (media.matches ? 'dark' : 'light');
-      }
-
-      function render() {
-        var dark = current() === 'dark';
-        btn.textContent = dark ? '☀' : '◐';
-        btn.setAttribute('aria-label', dark ? '切换到浅色模式' : '切换到深色模式');
-        btn.title = btn.getAttribute('aria-label');
-      }
-
-      btn.addEventListener('click', function () {
-        var next = current() === 'dark' ? 'light' : 'dark';
-        root.dataset.theme = next;
-        try { localStorage.setItem('theme', next); } catch (e) {}
-        render();
-      });
-
-      media.addEventListener('change', render);
-      document.getElementById('year').textContent = new Date().getFullYear();
-      render();
-    })();
-  </script>
 </body>
 </html>
