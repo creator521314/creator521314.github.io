@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arctic Ink · GNOME 桌面方案 · Serene Walker</title>
+  <meta name="description" content="Arctic Ink：给 Arch Linux + GNOME 51 写的一套冷调深色桌面方案——青绿强调色、Inter + 思源黑体、自绘壁纸，以及一条命令可回滚的安装脚本。">
+  <meta property="og:title" content="Arctic Ink · GNOME 桌面方案">
+  <meta property="og:description" content="冷调深色、单一青绿强调色、字体定调，配自绘壁纸和可回滚的安装脚本。">
+  <meta property="og:type" content="article">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      margin-bottom: 2.75rem;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    .back:hover { color: var(--accent); text-decoration: none; }
+
+    .eyebrow {
+      margin: 0 0 .5rem;
+      color: var(--accent);
+      font-size: .75rem;
+      font-weight: 650;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.1rem, 6vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -.025em;
+      font-weight: 700;
+    }
+
+    .lede {
+      max-width: 42em;
+      margin: 1rem 0 0;
+      color: var(--muted);
+      font-size: 1.06rem;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem 1.25rem;
+      margin: 2rem 0 0;
+      padding: 1.15rem 1.3rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .facts dt {
+      font-size: .7rem;
+      font-weight: 650;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .facts dd {
+      margin: .15rem 0 0;
+      font-size: .9rem;
+      line-height: 1.55;
+    }
+
+    .shot { margin: 2.25rem 0 0; }
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+    .shot figcaption {
+      margin-top: .65rem;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .bullets { padding-left: 1.15rem; margin: .9rem 0 0; }
+    .bullets li { margin-bottom: .6rem; }
+    .bullets li:last-child { margin-bottom: 0; }
+    .bullets strong { font-weight: 620; }
+
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: .7rem;
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0;
+    }
+    .palette li {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      padding: .55rem .7rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .swatch {
+      flex: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .palette code { font-size: .82rem; }
+    .palette small {
+      display: block;
+      color: var(--muted);
+      font-size: .76rem;
+      line-height: 1.4;
+    }
+
+    .walls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .8rem;
+      margin-top: 1rem;
+    }
+    .walls figure { margin: 0; }
+    .walls img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+    }
+    .walls figcaption {
+      margin-top: .45rem;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+    @media (max-width: 560px) {
+      .walls { grid-template-columns: 1fr; }
+    }
+
+    .table-wrap {
+      margin-top: 1rem;
+      overflow-x: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    th, td { padding: .7rem .85rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
+    th {
+      color: var(--muted);
+      font-size: .7rem;
+      font-weight: 650;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    tbody tr:last-child td { border-bottom: 0; }
+    td:first-child { white-space: nowrap; color: var(--muted); }
+
+    pre {
+      margin: 1rem 0 0;
+      padding: 1rem 1.15rem;
+      overflow-x: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: .84rem;
+      line-height: 1.7;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, "Maple Mono CN", Menlo, Consolas, monospace;
+    }
+    p code, li code {
+      padding: .08em .38em;
+      background: var(--accent-soft);
+      border-radius: 5px;
+      font-size: .86em;
+    }
+    .note {
+      margin-top: .8rem;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+    .note code { color: var(--text); }
+
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--accent); text-decoration: none; }
+  </style>
+  <script>
+    // 提前应用主题，避免闪白/闪黑
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') {
+          document.documentElement.dataset.theme = saved;
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="../">Serene Walker</a>
+      <button class="theme-toggle" id="theme-toggle" type="button"
+              aria-label="切换深色/浅色模式" title="切换深色/浅色模式">◐</button>
+    </header>
+
+    <main>
+      <a class="back" href="../">← 返回首页</a>
+
+      <p class="eyebrow">项目 01 · 桌面环境</p>
+      <h1>Arctic Ink</h1>
+      <p class="lede">
+        给 Arch Linux + GNOME 51 手写的一套桌面方案：冷调深色、单一青绿强调色、
+        无衬线字体定调，配自绘壁纸，以及一条命令就能回滚的安装脚本。
+      </p>
+
+      <dl class="facts">
+        <div>
+          <dt>平台</dt>
+          <dd>Arch Linux（rolling）<br>GNOME Shell 51.1 · Wayland</dd>
+        </div>
+        <div>
+          <dt>屏幕</dt>
+          <dd>27&quot; 2K · 2560×1440<br>缩放 1.25×</dd>
+        </div>
+        <div>
+          <dt>我的角色</dt>
+          <dd>体检 → 选型 → 写脚本<br>→ 实机落地与验证</dd>
+        </div>
+        <div>
+          <dt>交付</dt>
+          <dd>1 个安装器 + 3 个辅助脚本<br>2 张壁纸 · 可一键回滚</dd>
+        </div>
+      </dl>
+
+      <figure class="shot">
+        <img src="../assets/arctic-ink/style-card.webp" width="1600" height="1060"
+             alt="Arctic Ink 方案预览卡片：左侧是青绿与靛蓝渐变的壁纸，右侧列出配色、字体与图标说明"
+             decoding="async">
+        <figcaption>方案预览：壁纸、配色与字体。这张图由仓库里的 <code>scripts/make-preview.sh</code> 生成。</figcaption>
+      </figure>
+
+      <section>
+        <h2>为什么这么做</h2>
+        <p class="section-note">动手前先给系统做了一次只读体检，四个判断决定了后面的取舍。</p>
+        <ul class="bullets">
+          <li><strong>换 GTK 主题的收益比想象中低。</strong>
+            GNOME 51 上多数应用是 libadwaita，它们不读 <code>gtk-theme</code>，
+            只跟随深浅色和 <code>accent-color</code>。所以主角是强调色、图标、光标、字体和壁纸，
+            GTK 主题只用来把旧的 GTK3 程序拉回同一套视觉。</li>
+          <li><strong>最影响观感的，是中文字体缺失。</strong>
+            系统里唯一的中文字体是等宽的 Maple Mono CN，界面上的中文一直在用代码字体的节奏排版。
+            补一套思源黑体，比换任何主题的收益都大。</li>
+          <li><strong>壁纸和强调色要同源。</strong>
+            自绘的渐变壁纸取 <code>#2EC6B0</code>，再把 GNOME 的 accent 设成 <code>teal</code>，
+            开关、选中态和桌面就属于同一种冷调。</li>
+          <li><strong>软件美化给不了「顺滑」。</strong>
+            2K 屏当时只跑 59.95 Hz，这是线材或显示器设置的问题；
+            Dock 动效和拖窗口的手感，得去显示器设置里解决。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>怎么搭</h2>
+        <p class="section-note">四层结构，从「有质感」铺到「有氛围」。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>层</th><th>内容</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>基础</td>
+                <td><code>prefer-dark</code> + 青绿 accent；Papirus-Dark 图标（文件夹配色 teal）；
+                  Bibata-Modern-Ice 光标；<code>adw-gtk3-dark</code> 收拢旧 GTK3 应用</td>
+              </tr>
+              <tr>
+                <td>字体</td>
+                <td>界面 Inter 11；标题 Inter Bold；等宽 Maple Mono CN；中文回退 Noto Sans CJK SC；
+                  灰度抗锯齿 + 轻微 hinting</td>
+              </tr>
+              <tr>
+                <td>桌面</td>
+                <td>Dash to Dock 底部悬浮、智能隐藏；Blur my Shell 给面板和概览上毛玻璃；
+                  AppIndicator 管托盘；Just Perfection 做细节微调</td>
+              </tr>
+              <tr>
+                <td>氛围</td>
+                <td>自绘 arctic-ink 壁纸（附浅色版 arctic-mist）；窗口按钮改为最小化 / 最大化 / 关闭；
+                  24 小时制；关闭热角</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>配色</h2>
+        <p class="section-note">深底、低饱和，靠明度而不是描边来分层。</p>
+        <ul class="palette">
+          <li><span class="swatch" style="background:#0E1A24" aria-hidden="true"></span>
+            <div><code>#0E1A24</code><small>底色 / 壁纸暗部</small></div></li>
+          <li><span class="swatch" style="background:#16242F" aria-hidden="true"></span>
+            <div><code>#16242F</code><small>浮层 / 卡片 / 面板</small></div></li>
+          <li><span class="swatch" style="background:#2EC6B0" aria-hidden="true"></span>
+            <div><code>#2EC6B0</code><small>强调色 accent = teal</small></div></li>
+          <li><span class="swatch" style="background:#7AA2F7" aria-hidden="true"></span>
+            <div><code>#7AA2F7</code><small>辅助 / 选中 / 链接</small></div></li>
+          <li><span class="swatch" style="background:#E6EDF3" aria-hidden="true"></span>
+            <div><code>#E6EDF3</code><small>主文字 / 高对比</small></div></li>
+          <li><span class="swatch" style="background:#93A4B4" aria-hidden="true"></span>
+            <div><code>#93A4B4</code><small>次级文字 / 说明</small></div></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>壁纸</h2>
+        <p class="section-note">两张 2560×1440 的自绘渐变：深色主用，浅色备用。</p>
+        <div class="walls">
+          <figure>
+            <img src="../assets/arctic-ink/wallpaper-ink.webp" width="1280" height="720"
+                 loading="lazy" decoding="async"
+                 alt="arctic-ink 深色壁纸：左下青绿光斑过渡到右上靛蓝">
+            <figcaption>arctic-ink · 深色主壁纸</figcaption>
+          </figure>
+          <figure>
+            <img src="../assets/arctic-ink/wallpaper-mist.webp" width="1280" height="720"
+                 loading="lazy" decoding="async"
+                 alt="arctic-mist 浅色壁纸：薄荷绿到淡紫的柔和渐变">
+            <figcaption>arctic-mist · 浅色备用</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section>
+        <h2>用起来</h2>
+        <p class="section-note">体检、安装、应用、回滚，都收在同一个入口里。</p>
+        <pre><code>./install.sh doctor      # 只读体检，先确认系统现状
+./install.sh all         # 装包 + 扩展 + 写入外观设置
+./install.sh rollback    # 恢复到安装前的 /org/gnome 设置</code></pre>
+        <p class="note">
+          想先看会改什么：<code>./install.sh all --dry-run</code>；不需要扩展：<code>--no-extensions</code>。
+          首次安装前会自动备份 dconf 与扩展清单，之后重复执行不会覆盖这份备份。
+        </p>
+      </section>
+
+      <section>
+        <h2>踩过的坑</h2>
+        <ul class="bullets">
+          <li>GNOME 51 刚发布，第三方 Shell 主题（比如 Colloid）的 CSS 未必对得上，
+            可能出现顶栏高度异常。默认方案不装，想要时再加 <code>--with-shell-theme</code>。</li>
+          <li>Wayland 下不能重启 Shell，新装的扩展必须注销重登才会生效。</li>
+          <li><code>noto-fonts-cjk</code> 约 300 MB，是这套方案里最大的一笔体积开销。</li>
+          <li>备份只做第一次：反复 apply 不会覆盖 <code>backup/latest.dconf</code>，
+            回滚点始终停在「安装前」的那一刻。</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <a href="../">← 返回首页</a>
+      <span>© <span id="year">2026</span> Serene Walker</span>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById('theme-toggle');
+      var media = window.matchMedia('(prefers-color-scheme: dark)');
+
+      function current() {
+        return root.dataset.theme || (media.matches ? 'dark' : 'light');
+      }
+
+      function render() {
+        var dark = current() === 'dark';
+        btn.textContent = dark ? '☀' : '◐';
+        btn.setAttribute('aria-label', dark ? '切换到浅色模式' : '切换到深色模式');
+        btn.title = btn.getAttribute('aria-label');
+      }
+
+      btn.addEventListener('click', function () {
+        var next = current() === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        render();
+      });
+
+      media.addEventListener('change', render);
+      document.getElementById('year').textContent = new Date().getFullYear();
+      render();
+    })();
+  </script>
+</body>
+</html>

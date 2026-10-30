@@ -9,102 +9,8 @@
   <meta property="og:description" content="简单、安静、持续记录。">
   <meta property="og:type" content="website">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link rel="stylesheet" href="styles.css">
   <style>
-    :root {
-      --bg: #fbfaf7;
-      --surface: #ffffff;
-      --text: #1f2328;
-      --muted: #5b6470;
-      --border: #e6e2da;
-      --accent: #2f7d5d;
-      --accent-soft: #e7f2ec;
-      --accent-contrast: #ffffff;
-      --shadow: 0 1px 2px rgba(31, 35, 40, .05), 0 8px 24px rgba(31, 35, 40, .06);
-      --radius: 16px;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) {
-        --bg: #14171a;
-        --surface: #1b1f23;
-        --text: #e6e8ea;
-        --muted: #9aa4af;
-        --border: #2b3138;
-        --accent: #6fce9f;
-        --accent-soft: #1e2f27;
-        --accent-contrast: #10251b;
-        --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
-      }
-    }
-
-    :root[data-theme="dark"] {
-      --bg: #14171a;
-      --surface: #1b1f23;
-      --text: #e6e8ea;
-      --muted: #9aa4af;
-      --border: #2b3138;
-      --accent: #6fce9f;
-      --accent-soft: #1e2f27;
-      --accent-contrast: #10251b;
-      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-        "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-      transition: background-color .2s ease, color .2s ease;
-    }
-
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; text-underline-offset: 3px; }
-
-    .wrap {
-      width: min(720px, calc(100% - 2.5rem));
-      margin: 0 auto;
-    }
-
-    /* ---------- 顶栏 ---------- */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.25rem 0;
-    }
-
-    .brand {
-      font-weight: 650;
-      letter-spacing: .02em;
-      color: var(--text);
-    }
-    .brand:hover { text-decoration: none; }
-
-    .theme-toggle {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 2.25rem;
-      height: 2.25rem;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: var(--surface);
-      color: var(--text);
-      font-size: 1rem;
-      cursor: pointer;
-      transition: transform .15s ease, border-color .15s ease;
-    }
-    .theme-toggle:hover { transform: translateY(-1px); border-color: var(--accent); }
-    .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
     /* ---------- 首屏 ---------- */
     .hero {
       padding: 3.5rem 0 3rem;
@@ -149,56 +55,6 @@
       margin-top: .25rem;
     }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-      padding: .55rem 1.1rem;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      font-size: .92rem;
-      font-weight: 550;
-      transition: transform .15s ease, border-color .15s ease, background-color .15s ease;
-    }
-    .btn:hover { text-decoration: none; transform: translateY(-1px); border-color: var(--accent); }
-    .btn.primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: var(--accent-contrast);
-    }
-    .btn.primary:hover { filter: brightness(1.06); }
-
-    /* ---------- 通用区块 ---------- */
-    section { padding: 1.5rem 0; }
-
-    h2 {
-      margin: 0 0 .35rem;
-      font-size: .8rem;
-      font-weight: 650;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .section-note {
-      margin: 0 0 1.25rem;
-      color: var(--muted);
-      font-size: .95rem;
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.1rem 1.25rem;
-      box-shadow: var(--shadow);
-    }
-
-    p { margin: 0 0 .9rem; }
-    p:last-child { margin-bottom: 0; }
-
     .projects { display: grid; gap: .85rem; }
 
     .project {
@@ -227,6 +83,42 @@
       font-size: .92rem;
     }
     .project .arrow { float: right; color: var(--muted); }
+    .project:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    /* 首个项目：左图右文的横向卡片 */
+    .project.featured {
+      display: grid;
+      grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: center;
+      padding: .9rem;
+    }
+    .project-thumb {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 720 / 416;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .project-body { padding: .25rem .5rem .25rem 0; }
+    .project-tag {
+      display: inline-block;
+      margin-bottom: .2rem;
+      font-size: .72rem;
+      font-weight: 650;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .project.featured h3 { font-size: 1.15rem; }
+
+    @media (max-width: 560px) {
+      .project.featured { grid-template-columns: 1fr; gap: .85rem; }
+      .project-body { padding: 0 .35rem .35rem; }
+    }
 
     .links {
       display: flex;
@@ -250,26 +142,8 @@
     }
     .links a:hover { text-decoration: none; border-color: var(--accent); transform: translateY(-1px); }
 
-    footer {
-      margin-top: 2.5rem;
-      padding: 1.5rem 0 3rem;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: .85rem;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: .5rem;
-    }
-
     @media (max-width: 520px) {
       .hero { padding: 2.5rem 0 2rem; }
-      footer { flex-direction: column; align-items: flex-start; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      * { transition: none !important; }
     }
   </style>
   <script>
@@ -324,21 +198,17 @@
         <h2>项目</h2>
         <p class="section-note">一些自己动手做的东西。</p>
         <div class="projects">
-          <a class="project" href="https://github.com/creator521314">
-            <span class="arrow" aria-hidden="true">↗</span>
-            <h3>项目名称一</h3>
-            <p>一句话说明它解决什么问题、用了什么技术。</p>
+          <a class="project featured" href="projects/arctic-ink.html">
+            <img class="project-thumb" src="assets/arctic-ink/thumb.webp"
+                 width="720" height="416" loading="lazy" decoding="async"
+                 alt="Arctic Ink 壁纸预览：从深青绿过渡到靛蓝的冷调渐变">
+            <div class="project-body">
+              <span class="project-tag">桌面环境 · GNOME</span>
+              <h3>Arctic Ink<span class="arrow" aria-hidden="true">↗</span></h3>
+              <p>给 Arch Linux + GNOME 51 写的一套冷调深色桌面方案：青绿强调色、Inter + 思源黑体、自绘壁纸，以及一条命令就能回滚的安装脚本。</p>
+            </div>
           </a>
-          <a class="project" href="https://github.com/creator521314">
-            <span class="arrow" aria-hidden="true">↗</span>
-            <h3>项目名称二</h3>
-            <p>一句话说明它解决什么问题、用了什么技术。</p>
-          </a>
-          <a class="project" href="https://github.com/creator521314">
-            <span class="arrow" aria-hidden="true">↗</span>
-            <h3>项目名称三</h3>
-            <p>一句话说明它解决什么问题、用了什么技术。</p>
-          </a>
+          <!-- 追加项目时，复制上面这个 <a class="project ..."> 块，把链接换成详情页或仓库地址 -->
         </div>
       </section>
 
