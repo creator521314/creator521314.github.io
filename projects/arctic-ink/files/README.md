@@ -102,7 +102,7 @@
 ### 3.1 快速开始
 
 ```bash
-cd ~/git_rc/dsh_workspace/gnome-theme
+cd gnome-theme           # 本仓库里的项目目录
 
 ./install.sh doctor      # 1. 先体检，确认现状（只读）
 ./install.sh all         # 2. 安装 + 应用（需要 sudo 密码）

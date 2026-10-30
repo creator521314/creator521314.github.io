@@ -1,0 +1,134 @@
+/* ---------- 首屏 ---------- */
+    .hero {
+      padding: 3.5rem 0 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .avatar {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 1.9rem;
+      font-weight: 650;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid var(--border);
+      user-select: none;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.9rem, 5vw, 2.6rem);
+      line-height: 1.2;
+      letter-spacing: -.02em;
+      font-weight: 700;
+    }
+
+    .tagline {
+      margin: .3rem 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      margin-top: .25rem;
+    }
+
+    .projects { display: grid; gap: .85rem; }
+
+    .project {
+      display: block;
+      padding: 1.1rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .project:hover {
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+    .project h3 {
+      margin: 0 0 .2rem;
+      font-size: 1.02rem;
+      font-weight: 620;
+    }
+    .project p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    .project .arrow { float: right; color: var(--muted); }
+    .project:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    /* 首个项目：左图右文的横向卡片 */
+    .project.featured {
+      display: grid;
+      grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: center;
+      padding: .9rem;
+    }
+    .project-thumb {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 720 / 416;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .project-body { padding: .25rem .5rem .25rem 0; }
+    .project-tag {
+      display: inline-block;
+      margin-bottom: .2rem;
+      font-size: .72rem;
+      font-weight: 650;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .project.featured h3 { font-size: 1.15rem; }
+
+    @media (max-width: 560px) {
+      .project.featured { grid-template-columns: 1fr; gap: .85rem; }
+      .project-body { padding: 0 .35rem .35rem; }
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .links a {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .45rem .9rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: .9rem;
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    .links a:hover { text-decoration: none; border-color: var(--accent); transform: translateY(-1px); }
+
+    @media (max-width: 520px) {
+      .hero { padding: 2.5rem 0 2rem; }
+    }

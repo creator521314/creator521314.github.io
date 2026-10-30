@@ -1,0 +1,19 @@
+title: Serene Walker
+description: 简单、安静、持续记录。
+author: Serene Walker
+lang: zh-CN
+url: https://creator521314.github.io
+baseurl: ""
+
+# README 只是给仓库看的，不发布
+exclude:
+  - README.md
+  - vendor
+
+# 所有带 front matter 的页面默认套用同一套骨架
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: default

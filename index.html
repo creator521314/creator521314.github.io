@@ -1,163 +1,12 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Serene Walker · 个人主页</title>
-  <meta name="description" content="Serene Walker 的个人主页：简单、安静、持续记录。">
-  <meta property="og:title" content="Serene Walker · 个人主页">
-  <meta property="og:description" content="简单、安静、持续记录。">
-  <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    /* ---------- 首屏 ---------- */
-    .hero {
-      padding: 3.5rem 0 3rem;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1.5rem;
-    }
-
-    .avatar {
-      width: 84px;
-      height: 84px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 1.9rem;
-      font-weight: 650;
-      color: var(--accent);
-      background: var(--accent-soft);
-      border: 1px solid var(--border);
-      user-select: none;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(1.9rem, 5vw, 2.6rem);
-      line-height: 1.2;
-      letter-spacing: -.02em;
-      font-weight: 700;
-    }
-
-    .tagline {
-      margin: .3rem 0 0;
-      color: var(--muted);
-      font-size: 1.05rem;
-    }
-
-    .cta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .75rem;
-      margin-top: .25rem;
-    }
-
-    .projects { display: grid; gap: .85rem; }
-
-    .project {
-      display: block;
-      padding: 1.1rem 1.25rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text);
-      box-shadow: var(--shadow);
-      transition: transform .15s ease, border-color .15s ease;
-    }
-    .project:hover {
-      text-decoration: none;
-      transform: translateY(-2px);
-      border-color: var(--accent);
-    }
-    .project h3 {
-      margin: 0 0 .2rem;
-      font-size: 1.02rem;
-      font-weight: 620;
-    }
-    .project p {
-      margin: 0;
-      color: var(--muted);
-      font-size: .92rem;
-    }
-    .project .arrow { float: right; color: var(--muted); }
-    .project:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
-    /* 首个项目：左图右文的横向卡片 */
-    .project.featured {
-      display: grid;
-      grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
-      gap: 1.25rem;
-      align-items: center;
-      padding: .9rem;
-    }
-    .project-thumb {
-      display: block;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 720 / 416;
-      object-fit: cover;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-    }
-    .project-body { padding: .25rem .5rem .25rem 0; }
-    .project-tag {
-      display: inline-block;
-      margin-bottom: .2rem;
-      font-size: .72rem;
-      font-weight: 650;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-    .project.featured h3 { font-size: 1.15rem; }
-
-    @media (max-width: 560px) {
-      .project.featured { grid-template-columns: 1fr; gap: .85rem; }
-      .project-body { padding: 0 .35rem .35rem; }
-    }
-
-    .links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .links a {
-      display: inline-flex;
-      align-items: center;
-      gap: .35rem;
-      padding: .45rem .9rem;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: var(--surface);
-      color: var(--text);
-      font-size: .9rem;
-      transition: border-color .15s ease, transform .15s ease;
-    }
-    .links a:hover { text-decoration: none; border-color: var(--accent); transform: translateY(-1px); }
-
-    @media (max-width: 520px) {
-      .hero { padding: 2.5rem 0 2rem; }
-    }
-  </style>
-  <script src="site.js"></script>
-</head>
-<body>
-  <div class="wrap">
-    <header>
-      <a class="brand" href="./">Serene Walker</a>
-      <button class="theme-toggle" id="theme-toggle" type="button"
-              aria-label="切换深色/浅色模式" title="切换深色/浅色模式">◐</button>
-    </header>
-
-    <main>
-      <section class="hero">
+---
+title: "Serene Walker · 个人主页"
+description: "Serene Walker 的个人主页：简单、安静、持续记录。"
+og_title: "Serene Walker · 个人主页"
+og_description: "简单、安静、持续记录。"
+og_type: website
+extra_css: [home]
+---
+<section class="hero">
         <div class="avatar" aria-hidden="true">SW</div>
         <div>
           <h1>Serene Walker</h1>
@@ -188,8 +37,8 @@
         <h2>项目</h2>
         <p class="section-note">一些自己动手做的东西。</p>
         <div class="projects">
-          <a class="project featured" href="projects/arctic-ink/">
-            <img class="project-thumb" src="assets/arctic-ink/thumb.webp"
+          <a class="project featured" href="{{ '/projects/arctic-ink/' | relative_url }}">
+            <img class="project-thumb" src="{{ '/assets/arctic-ink/thumb.webp' | relative_url }}"
                  width="720" height="416" decoding="async"
                  alt="Arctic Ink 壁纸预览：从深青绿过渡到靛蓝的冷调渐变">
             <div class="project-body">
@@ -211,13 +60,3 @@
           <li><a href="#about">关于本页</a></li>
         </ul>
       </section>
-    </main>
-
-    <footer>
-      <span>© <span id="year">2026</span> Serene Walker</span>
-      <span>由 GitHub Pages 托管</span>
-    </footer>
-  </div>
-
-</body>
-</html>

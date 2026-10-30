@@ -1,268 +1,14 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Arctic Ink · GNOME 桌面方案 · Serene Walker</title>
-  <meta name="description" content="Arctic Ink：给 Arch Linux + GNOME 51 写的一套冷调深色桌面方案——青绿强调色、Inter + 思源黑体、自绘壁纸，以及一条命令可回滚的安装脚本。">
-  <meta property="og:title" content="Arctic Ink · GNOME 桌面方案">
-  <meta property="og:description" content="冷调深色、单一青绿强调色、字体定调，配自绘壁纸和可回滚的安装脚本。">
-  <meta property="og:type" content="article">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
-  <link rel="stylesheet" href="../../styles.css">
-  <style>
-    .back {
-      display: inline-flex;
-      align-items: center;
-      gap: .35rem;
-      margin-bottom: 2.75rem;
-      color: var(--muted);
-      font-size: .9rem;
-    }
-    .back:hover { color: var(--accent); text-decoration: none; }
-
-    .eyebrow {
-      margin: 0 0 .5rem;
-      color: var(--accent);
-      font-size: .75rem;
-      font-weight: 650;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(2.1rem, 6vw, 3rem);
-      line-height: 1.15;
-      letter-spacing: -.025em;
-      font-weight: 700;
-    }
-
-    .lede {
-      max-width: 42em;
-      margin: 1rem 0 0;
-      color: var(--muted);
-      font-size: 1.06rem;
-    }
-
-    .facts {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem 1.25rem;
-      margin: 2rem 0 0;
-      padding: 1.15rem 1.3rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .facts dt {
-      font-size: .7rem;
-      font-weight: 650;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .facts dd {
-      margin: .15rem 0 0;
-      font-size: .9rem;
-      line-height: 1.55;
-    }
-
-    .shot { margin: 2.25rem 0 0; }
-    .shot img {
-      display: block;
-      width: 100%;
-      height: auto;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--surface);
-    }
-    .shot figcaption {
-      margin-top: .65rem;
-      color: var(--muted);
-      font-size: .82rem;
-    }
-
-    .bullets { padding-left: 1.15rem; margin: .9rem 0 0; }
-    .bullets li { margin-bottom: .6rem; }
-    .bullets li:last-child { margin-bottom: 0; }
-    .bullets strong { font-weight: 620; }
-
-    .palette {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: .7rem;
-      list-style: none;
-      padding: 0;
-      margin: 1rem 0 0;
-    }
-    .palette li {
-      display: flex;
-      align-items: center;
-      gap: .65rem;
-      padding: .55rem .7rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-    }
-    .swatch {
-      flex: none;
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-    }
-    .palette code { font-size: .82rem; }
-    .palette small {
-      display: block;
-      color: var(--muted);
-      font-size: .76rem;
-      line-height: 1.4;
-    }
-
-    .walls {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: .8rem;
-      margin-top: 1rem;
-    }
-    .walls figure { margin: 0; }
-    .walls img {
-      display: block;
-      width: 100%;
-      height: auto;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: var(--surface);
-    }
-    .walls figcaption {
-      margin-top: .45rem;
-      color: var(--muted);
-      font-size: .8rem;
-    }
-    @media (max-width: 560px) {
-      .walls { grid-template-columns: 1fr; }
-    }
-
-    .table-wrap {
-      margin-top: 1rem;
-      overflow-x: auto;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-    }
-    table { width: 100%; border-collapse: collapse; font-size: .9rem; }
-    th, td { padding: .7rem .85rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
-    th {
-      color: var(--muted);
-      font-size: .7rem;
-      font-weight: 650;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-    tbody tr:last-child td { border-bottom: 0; }
-    td:first-child { white-space: nowrap; color: var(--muted); }
-
-    pre {
-      margin: 1rem 0 0;
-      padding: 1rem 1.15rem;
-      overflow-x: auto;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      font-size: .84rem;
-      line-height: 1.7;
-    }
-    code {
-      font-family: ui-monospace, SFMono-Regular, "Maple Mono CN", Menlo, Consolas, monospace;
-    }
-    p code, li code {
-      padding: .08em .38em;
-      background: var(--accent-soft);
-      border-radius: 5px;
-      font-size: .86em;
-      white-space: nowrap;
-    }
-    .note {
-      margin-top: .8rem;
-      color: var(--muted);
-      font-size: .88rem;
-    }
-    .note code { color: var(--text); }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .6rem;
-      margin-top: 1.35rem;
-    }
-
-    .filelist {
-      list-style: none;
-      margin: 1rem 0 0;
-      padding: 0;
-      overflow: hidden;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-    }
-    .filelist li {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: .3rem 1rem;
-      padding: .7rem 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .filelist li:last-child { border-bottom: 0; }
-    .file-info {
-      display: flex;
-      flex: 1 1 auto;
-      flex-direction: column;
-      gap: .1rem;
-      min-width: 0;
-    }
-    .file-info code {
-      padding: 0;
-      background: none;
-      font-size: .86rem;
-      overflow-wrap: anywhere;
-    }
-    .file-info span { color: var(--muted); font-size: .8rem; }
-    .file-meta {
-      display: flex;
-      flex: none;
-      align-items: center;
-      gap: .9rem;
-      color: var(--muted);
-      font-size: .82rem;
-      font-variant-numeric: tabular-nums;
-    }
-    .file-meta a { color: var(--accent); }
-    @media (max-width: 520px) {
-      .file-meta { width: 100%; justify-content: flex-end; }
-    }
-
-    @media (max-width: 560px) {
-      pre { font-size: .78rem; }
-    }
-
-    footer a { color: var(--muted); }
-    footer a:hover { color: var(--accent); text-decoration: none; }
-  </style>
-  <script src="../../site.js"></script>
-</head>
-<body>
-  <div class="wrap">
-    <header>
-      <a class="brand" href="../../">Serene Walker</a>
-      <button class="theme-toggle" id="theme-toggle" type="button"
-              aria-label="切换深色/浅色模式" title="切换深色/浅色模式">◐</button>
-    </header>
-
-    <main>
-      <a class="back" href="../../">← 返回首页</a>
+---
+title: "Arctic Ink · GNOME 桌面方案 · Serene Walker"
+description: "Arctic Ink：给 Arch Linux + GNOME 51 写的一套冷调深色桌面方案——青绿强调色、Inter + 思源黑体、自绘壁纸，以及一条命令可回滚的安装脚本。"
+og_title: "Arctic Ink · GNOME 桌面方案"
+og_description: "冷调深色、单一青绿强调色、字体定调，配自绘壁纸和可回滚的安装脚本。"
+og_type: article
+extra_css: [project]
+back: /
+back_label: 返回首页
+---
+<a class="back" href="{{ '/' | relative_url }}">← 返回首页</a>
 
       <p class="eyebrow">项目 01 · 桌面环境</p>
       <h1>Arctic Ink</h1>
@@ -274,6 +20,7 @@
       <div class="actions">
         <a class="btn primary" href="files/install.sh" download>下载 install.sh</a>
         <a class="btn" href="#files">全部文件</a>
+        <a class="btn" href="https://github.com/creator521314/pet-projects/tree/main/gnome-theme" target="_blank" rel="noopener">GitHub 仓库 ↗</a>
       </div>
 
       <dl class="facts">
@@ -296,7 +43,7 @@
       </dl>
 
       <figure class="shot">
-        <img src="../../assets/arctic-ink/style-card.webp" width="1600" height="1060"
+        <img src="{{ '/assets/arctic-ink/style-card.webp' | relative_url }}" width="1600" height="1060"
              alt="Arctic Ink 方案预览卡片：左侧是青绿与靛蓝渐变的壁纸，右侧列出配色、字体与图标说明"
              decoding="async">
         <figcaption>方案预览：壁纸、配色与字体。这张图由仓库里的 <code>scripts/make-preview.sh</code> 生成。</figcaption>
@@ -380,13 +127,13 @@
         <p class="section-note">两张 2560×1440 的自绘渐变：深色主用，浅色备用。</p>
         <div class="walls">
           <figure>
-            <img src="../../assets/arctic-ink/wallpaper-ink.webp" width="1280" height="720"
+            <img src="{{ '/assets/arctic-ink/wallpaper-ink.webp' | relative_url }}" width="1280" height="720"
                  decoding="async"
                  alt="arctic-ink 深色壁纸：左下青绿光斑过渡到右上靛蓝">
             <figcaption>arctic-ink · 深色主壁纸</figcaption>
           </figure>
           <figure>
-            <img src="../../assets/arctic-ink/wallpaper-mist.webp" width="1280" height="720"
+            <img src="{{ '/assets/arctic-ink/wallpaper-mist.webp' | relative_url }}" width="1280" height="720"
                  decoding="async"
                  alt="arctic-mist 浅色壁纸：薄荷绿到淡紫的柔和渐变">
             <figcaption>arctic-mist · 浅色备用</figcaption>
@@ -405,7 +152,7 @@
             </div>
             <div class="file-meta">
               <span>18 KB</span>
-              <a href="../../viewer.html?p=arctic-ink&amp;f=install.sh">查看</a>
+              <a href="{{ '/viewer.html' | relative_url }}?p=arctic-ink&amp;f=install.sh">查看</a>
               <a href="files/install.sh" download>下载</a>
             </div>
           </li>
@@ -416,7 +163,7 @@
             </div>
             <div class="file-meta">
               <span>12 KB</span>
-              <a href="../../viewer.html?p=arctic-ink&amp;f=README.md">查看</a>
+              <a href="{{ '/viewer.html' | relative_url }}?p=arctic-ink&amp;f=README.md">查看</a>
               <a href="files/README.md" download>下载</a>
             </div>
           </li>
@@ -427,7 +174,7 @@
             </div>
             <div class="file-meta">
               <span>6.0 KB</span>
-              <a href="../../viewer.html?p=arctic-ink&amp;f=scripts/doctor.sh">查看</a>
+              <a href="{{ '/viewer.html' | relative_url }}?p=arctic-ink&amp;f=scripts/doctor.sh">查看</a>
               <a href="files/scripts/doctor.sh" download>下载</a>
             </div>
           </li>
@@ -438,7 +185,7 @@
             </div>
             <div class="file-meta">
               <span>2.5 KB</span>
-              <a href="../../viewer.html?p=arctic-ink&amp;f=scripts/make-wallpapers.sh">查看</a>
+              <a href="{{ '/viewer.html' | relative_url }}?p=arctic-ink&amp;f=scripts/make-wallpapers.sh">查看</a>
               <a href="files/scripts/make-wallpapers.sh" download>下载</a>
             </div>
           </li>
@@ -449,7 +196,7 @@
             </div>
             <div class="file-meta">
               <span>3.7 KB</span>
-              <a href="../../viewer.html?p=arctic-ink&amp;f=scripts/make-preview.sh">查看</a>
+              <a href="{{ '/viewer.html' | relative_url }}?p=arctic-ink&amp;f=scripts/make-preview.sh">查看</a>
               <a href="files/scripts/make-preview.sh" download>下载</a>
             </div>
           </li>
@@ -488,7 +235,7 @@
           </li>
         </ul>
         <p class="note">
-          没有上传 <code>backup/</code>：里面是本机的 dconf 备份与扩展清单，含个人设置。
+          这些文件与 <a href="https://github.com/creator521314/pet-projects/tree/main/gnome-theme" target="_blank" rel="noopener">pet-projects 仓库</a>里的 <code>gnome-theme/</code> 保持一致；没有上传 <code>backup/</code>，里面是本机的 dconf 备份与扩展清单。
           下载后先 <code>chmod +x install.sh</code>，再按下一节的顺序执行。
         </p>
       </section>
@@ -516,13 +263,3 @@
             回滚点始终停在「安装前」的那一刻。</li>
         </ul>
       </section>
-    </main>
-
-    <footer>
-      <a href="../../">← 返回首页</a>
-      <span>© <span id="year">2026</span> Serene Walker</span>
-    </footer>
-  </div>
-
-</body>
-</html>
