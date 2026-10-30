@@ -25,14 +25,14 @@ git push -u origin main
 - **Branch** 选择 `main`，目录选择 `/ (root)`
 - 保存，等待 1–2 分钟即可访问
 
-访问地址（仓库不是 `<用户名>.github.io` 时）：
+访问地址：
 
 ```
-https://creator521314.github.io/serenewalker.github.io/
+https://creator521314.github.io/
 ```
 
-> 如果希望地址是 `https://creator521314.github.io/`，需要把仓库改名为
-> `creator521314.github.io`（或新建同名仓库）。页面使用相对路径，改名后无需修改代码。
+> 这是 GitHub 用户主页站点：仓库名必须与用户名一致（`creator521314.github.io`），
+> Pages 的 Source 为 `main` 分支根目录。页面使用相对路径，所以本地目录名可以不同。
 
 ## 自定义清单
 
