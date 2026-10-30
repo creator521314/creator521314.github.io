@@ -2,12 +2,13 @@
 title: "查看文件 · Serene Walker"
 description: "带行号阅读项目源文件，可复制或下载。"
 noindex: true
-extra_css: [viewer]
-extra_js: [viewer]
-back: /
+extra_css: ["viewer"]
+extra_js: ["viewer"]
+url: "/viewer.html"
+back: "/"
 back_label: 返回首页
 ---
-<a class="back" id="back" href="{{ '/' | relative_url }}">← 返回</a>
+<a class="back" id="back" href="/">← 返回</a>
 
       <h1 id="filename">正在读取…</h1>
       <p class="meta" id="meta">文件来自项目页，下面显示的是原始内容。</p>
@@ -21,5 +22,5 @@ back_label: 返回首页
 
       <noscript>
         <p class="meta">这个页面需要 JavaScript 才能显示源码，可以直接到
-          <a href="{{ '/projects/arctic-ink/' | relative_url }}">项目页</a> 下载文件。</p>
+          <a href="/projects/arctic-ink/">项目页</a> 下载文件。</p>
       </noscript>

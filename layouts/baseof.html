@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Title }}</title>
+  <meta name="description" content="{{ .Description | default site.Params.description }}">
+  <meta property="og:title" content="{{ .Params.og_title | default .Title }}">
+  <meta property="og:description" content="{{ .Params.og_description | default .Description }}">
+  <meta property="og:type" content="{{ .Params.og_type | default "website" }}">
+  {{- if .Params.noindex }}
+  <meta name="robots" content="noindex">
+  {{- end }}
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link rel="stylesheet" href="{{ "/assets/css/base.css" | relURL }}">
+  {{- range .Params.extra_css }}
+  <link rel="stylesheet" href="{{ printf "/assets/css/%s.css" . | relURL }}">
+  {{- end }}
+  <script src="{{ "/assets/js/site.js" | relURL }}"></script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="{{ "/" | relURL }}">{{ site.Title }}</a>
+      <button class="theme-toggle" id="theme-toggle" type="button"
+              aria-label="切换深色/浅色模式" title="切换深色/浅色模式">◐</button>
+    </header>
+
+    <main>{{ block "main" . }}{{ end }}</main>
+
+    <footer>
+      <span>© <span id="year">2026</span> {{ site.Params.author }}</span>
+      <span>{{ with .Params.back }}<a href="{{ . | relURL }}">← {{ $.Params.back_label | default "返回首页" }}</a>{{ else }}由 GitHub Pages 托管{{ end }}</span>
+    </footer>
+  </div>
+  {{- range .Params.extra_js }}
+  <script src="{{ printf "/assets/js/%s.js" . | relURL }}"></script>
+  {{- end }}
+</body>
+</html>

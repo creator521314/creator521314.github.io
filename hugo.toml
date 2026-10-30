@@ -1,0 +1,13 @@
+baseURL = "https://creator521314.github.io/"
+title = "Serene Walker"
+
+# 只有三个页面：不需要 section / taxonomy / RSS 这些自动页
+disableKinds = ["section", "taxonomy", "term", "RSS"]
+
+# 页面正文是手写 HTML，允许 html 内容格式
+[security]
+  allowContent = ['! ^text/org$']
+
+[params]
+  description = "简单、安静、持续记录。"
+  author = "Serene Walker"
