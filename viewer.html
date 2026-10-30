@@ -94,7 +94,6 @@
       <div class="toolbar" id="toolbar" hidden>
         <a class="btn primary" id="download" href="#" download>下载</a>
         <button class="btn" id="copy" type="button">复制内容</button>
-        <a class="btn" id="raw" href="#" target="_blank" rel="noopener">新标签打开</a>
       </div>
 
       <pre class="code"><code id="code">正在读取文件…</code></pre>
@@ -123,7 +122,6 @@
       var metaEl = document.getElementById('meta');
       var toolbar = document.getElementById('toolbar');
       var downloadEl = document.getElementById('download');
-      var rawEl = document.getElementById('raw');
       var copyEl = document.getElementById('copy');
       var backEl = document.getElementById('back');
 
@@ -159,7 +157,6 @@
       backEl.href = project.path;
       backEl.textContent = '← ' + project.title;
       downloadEl.href = url;
-      rawEl.href = url;
       toolbar.hidden = false;
 
       fetch(url, { cache: 'no-cache' })
