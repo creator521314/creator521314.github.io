@@ -47,7 +47,7 @@
 
     .facts {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 1rem 1.25rem;
       margin: 2rem 0 0;
       padding: 1.15rem 1.3rem;
@@ -182,6 +182,7 @@
       background: var(--accent-soft);
       border-radius: 5px;
       font-size: .86em;
+      white-space: nowrap;
     }
     .note {
       margin-top: .8rem;
@@ -189,6 +190,10 @@
       font-size: .88rem;
     }
     .note code { color: var(--text); }
+
+    @media (max-width: 560px) {
+      pre { font-size: .78rem; }
+    }
 
     footer a { color: var(--muted); }
     footer a:hover { color: var(--accent); text-decoration: none; }
@@ -328,13 +333,13 @@
         <div class="walls">
           <figure>
             <img src="../assets/arctic-ink/wallpaper-ink.webp" width="1280" height="720"
-                 loading="lazy" decoding="async"
+                 decoding="async"
                  alt="arctic-ink 深色壁纸：左下青绿光斑过渡到右上靛蓝">
             <figcaption>arctic-ink · 深色主壁纸</figcaption>
           </figure>
           <figure>
             <img src="../assets/arctic-ink/wallpaper-mist.webp" width="1280" height="720"
-                 loading="lazy" decoding="async"
+                 decoding="async"
                  alt="arctic-mist 浅色壁纸：薄荷绿到淡紫的柔和渐变">
             <figcaption>arctic-mist · 浅色备用</figcaption>
           </figure>
@@ -344,9 +349,9 @@
       <section>
         <h2>用起来</h2>
         <p class="section-note">体检、安装、应用、回滚，都收在同一个入口里。</p>
-        <pre><code>./install.sh doctor      # 只读体检，先确认系统现状
-./install.sh all         # 装包 + 扩展 + 写入外观设置
-./install.sh rollback    # 恢复到安装前的 /org/gnome 设置</code></pre>
+        <pre><code>./install.sh doctor      # 只读体检
+./install.sh all         # 安装 + 应用
+./install.sh rollback    # 恢复到安装前</code></pre>
         <p class="note">
           想先看会改什么：<code>./install.sh all --dry-run</code>；不需要扩展：<code>--no-extensions</code>。
           首次安装前会自动备份 dconf 与扩展清单，之后重复执行不会覆盖这份备份。
