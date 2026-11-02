@@ -1,4 +1,9 @@
-# Skill：把 pet-project 做成首页独立项目页
+---
+name: add-project-page
+description: 把一个 pet-project 整理成个人主页的独立项目页（/projects/<slug>/），包括素材准备、页面骨架、首页卡片、文件下载与查看器登记、验收清单。
+---
+
+# 把 pet-project 做成首页独立项目页
 
 适用场景：`pet-projects` 里新增了一个项目，要在个人主页给它一个 `/projects/<slug>/` 页面，
 并出现在首页的项目列表里。
