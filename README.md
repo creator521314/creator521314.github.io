@@ -33,7 +33,7 @@
 │   ├── assets/ibus-rime/        # 封面与首页缩略图
 │   └── projects/<项目>/files/   # 可下载的原始文件，原样发布
 ├── scripts/new-note.sh          # 新建文章的脚本
-├── docs/add-project-page.md     # 从 pet-project 到项目页的流程
+├── skills/add-project-page.md   # 从 pet-project 到项目页的流程
 ├── .github/workflows/pages.yml  # 构建 + 发布
 └── README.md
 ```
@@ -121,7 +121,7 @@ rsync -a --exclude backup/ ../pet-projects/gnome-theme/ static/projects/arctic-i
 4. 页面用图放 `static/assets/<项目>/`，优先 WebP。
 5. 在 `content/_index.html` 的 `#projects` 里追加卡片。
 
-完整流程、页面骨架、查看器登记和验收清单见 [docs/add-project-page.md](docs/add-project-page.md)。
+完整流程、页面骨架、查看器登记和验收清单见 [skills/add-project-page.md](skills/add-project-page.md)。
 
 ## 自定义清单
 
