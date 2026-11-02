@@ -97,7 +97,6 @@
       font-size: .72rem;
       font-weight: 650;
       letter-spacing: .1em;
-      text-transform: uppercase;
       color: var(--accent);
     }
     .project.featured h3 { font-size: 1.15rem; }

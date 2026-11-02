@@ -1,0 +1,216 @@
+---
+title: "ibus-rime · 中文输入方案 · Serene Walker"
+description: "在 GNOME Wayland 下把 IBus 的中文引擎从 libpinyin 换成 Rime：一键切换脚本、零依赖配置向导，以及排错与回退记录。"
+og_title: "ibus-rime · 中文输入方案"
+og_description: "留在 IBus 框架内换引擎：切换脚本、配置向导与配置快照。"
+og_type: article
+extra_css: ["project"]
+url: "/projects/ibus-rime/"
+back: "/"
+back_label: 返回首页
+---
+<a class="back" href="/">← 返回首页</a>
+
+<p class="eyebrow">项目 02 · 中文输入</p>
+<h1>ibus-rime</h1>
+<p class="lede">
+  在 GNOME Wayland 下，把 IBus 的中文引擎从 libpinyin 换成 Rime——不换输入法框架，只换引擎，
+  并配上一键切换脚本和零依赖的配置向导。
+</p>
+
+<div class="actions">
+  <a class="btn primary" href="https://github.com/creator521314/pet-projects/tree/main/ibus-rime" target="_blank" rel="noopener">GitHub 仓库 ↗</a>
+  <a class="btn" href="#files">文件</a>
+</div>
+
+<dl class="facts">
+  <div>
+    <dt>平台</dt>
+    <dd>Arch Linux<br>GNOME 51 · Wayland</dd>
+  </div>
+  <div>
+    <dt>输入源</dt>
+    <dd><code>xkb(us)</code> + <code>ibus(rime)</code></dd>
+  </div>
+  <div>
+    <dt>方案</dt>
+    <dd>朙月拼音·简化字<br>7 候选/页 · 横排</dd>
+  </div>
+  <div>
+    <dt>交付</dt>
+    <dd>切换脚本 + 配置向导<br>配置快照 · 排错表</dd>
+  </div>
+</dl>
+
+<figure class="shot">
+  <img src="/assets/ibus-rime/cover.webp" width="1440" height="832"
+       alt="ibus-rime 封面：终端里运行切换脚本与配置向导的输出"
+       decoding="async">
+  <figcaption>封面：切换脚本和配置向导的实际输出。</figcaption>
+</figure>
+
+<section>
+  <h2>为什么换掉 libpinyin</h2>
+  <p class="section-note">不是配置问题，是词库的持久化机制不适配 Wayland 的会话生命周期。</p>
+  <ul class="bullets">
+    <li><strong>症状。</strong>选过的字下次还是排在后面，甚至一分钟内重复输入也不调整。</li>
+    <li><strong>证据。</strong><code>~/.cache/ibus/libpinyin/</code> 里 <code>user.bin</code> 只有文件头，
+      <code>user_bigram.db</code> 只有签名、零词条，时间戳集中在几分钟内——是反复重建，不是累积。</li>
+    <li><strong>根因。</strong>libpinyin 在内存里训练，进程优雅退出时才落盘；GNOME Wayland 下
+      IBus 引擎跟着 gnome-shell 生死，注销/重启常被 <code>SIGKILL</code>，写盘函数没机会执行。</li>
+  </ul>
+</section>
+
+<section>
+  <h2>为什么留在 IBus</h2>
+  <p class="section-note">换引擎，不换框架。</p>
+  <ul class="bullets">
+    <li><strong><code>ibus</code> 是 gnome-shell 的硬依赖。</strong>
+      <code>pacman -R ibus</code> 会连带删掉整个 GNOME，所以只能换引擎。</li>
+    <li><strong>fcitx5 在 GNOME Wayland 下要多绕一道。</strong>
+      GNOME 不支持 Wayland 的 input-method 协议，候选框定位要靠 kimpanel 扩展，还得改 IM 环境变量。</li>
+    <li><strong>Rime 的差别在落盘时机。</strong>每次上屏即写 userdb，异常退出也不丢词频。</li>
+  </ul>
+</section>
+
+<section>
+  <h2>怎么配</h2>
+  <p class="section-note">Rime 没有图形设置界面，所有配置都在 YAML 里，改完要重新部署。</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>层</th><th>内容</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>方案</td>
+          <td>只保留 <code>luna_pinyin_simp</code>（朙月拼音·简化字），隐藏注音、仓颉、地球拼音</td>
+        </tr>
+        <tr>
+          <td>候选</td>
+          <td>每页 7 个，横排显示</td>
+        </tr>
+        <tr>
+          <td>模糊音</td>
+          <td>zh-z / ch-c / sh-s、n-l、en-eng / in-ing、an-ang</td>
+        </tr>
+        <tr>
+          <td>词库</td>
+          <td>开启用户词库，选过的词按词频排序</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>配置片段</h2>
+  <p class="section-note">模糊音必须用 <code>/+</code> 追加，不能整体替换。</p>
+  <pre><code>patch:
+  schema_list:
+    - schema: luna_pinyin_simp
+  menu/page_size: 7
+  style/horizontal: true
+
+# luna_pinyin_simp.custom.yaml
+patch:
+  "speller/algebra/+":
+    - derive/^([zcs])h/$1/
+    - derive/([ei])n$/$1ng/
+    - derive/([ei])ng$/$1n/
+  "translator/enable_user_dict": true</code></pre>
+  <p class="note">
+    <code>luna_pinyin</code> 的 <code>algebra</code> 是 <code>__patch:</code> 地图而不是列表，
+    直接写 <code>"speller/algebra": [...]</code> 会让 YAML 解析失败；替换式写法还会丢掉方案自带的简拼和纠错。
+  </p>
+</section>
+
+<section id="files">
+  <h2>文件</h2>
+  <p class="section-note">脚本和配置就是项目里实际在用的版本，可以直接查看或下载。</p>
+  <ul class="filelist">
+    <li>
+      <div class="file-info">
+        <code>README.md</code>
+        <span>完整记录：症状、根因、配置、排错与回退</span>
+      </div>
+      <div class="file-meta">
+        <span>6.7 KB</span>
+        <a href="/viewer.html?p=ibus-rime&amp;f=README.md">查看</a>
+        <a href="files/README.md" download>下载</a>
+      </div>
+    </li>
+    <li>
+      <div class="file-info">
+        <code>switch-ime-rime.sh</code>
+        <span>一键切换：装包、备份旧词库、注册输入源、重启 IBus</span>
+      </div>
+      <div class="file-meta">
+        <span>3.0 KB</span>
+        <a href="/viewer.html?p=ibus-rime&amp;f=switch-ime-rime.sh">查看</a>
+        <a href="files/switch-ime-rime.sh" download>下载</a>
+      </div>
+    </li>
+    <li>
+      <div class="file-info">
+        <code>rime-wizard.py</code>
+        <span>零依赖配置向导：方案、候选数、横排、模糊音、翻页键</span>
+      </div>
+      <div class="file-meta">
+        <span>12 KB</span>
+        <a href="/viewer.html?p=ibus-rime&amp;f=rime-wizard.py">查看</a>
+        <a href="files/rime-wizard.py" download>下载</a>
+      </div>
+    </li>
+    <li>
+      <div class="file-info">
+        <code>config/default.custom.yaml</code>
+        <span>全局配置快照：方案列表、候选数、横排</span>
+      </div>
+      <div class="file-meta">
+        <span>223 B</span>
+        <a href="/viewer.html?p=ibus-rime&amp;f=config/default.custom.yaml">查看</a>
+        <a href="files/config/default.custom.yaml" download>下载</a>
+      </div>
+    </li>
+    <li>
+      <div class="file-info">
+        <code>config/luna_pinyin_simp.custom.yaml</code>
+        <span>方案级配置快照：模糊音与用户词库</span>
+      </div>
+      <div class="file-meta">
+        <span>378 B</span>
+        <a href="/viewer.html?p=ibus-rime&amp;f=config/luna_pinyin_simp.custom.yaml">查看</a>
+        <a href="files/config/luna_pinyin_simp.custom.yaml" download>下载</a>
+      </div>
+    </li>
+  </ul>
+  <p class="note">
+    这些文件与 <a href="https://github.com/creator521314/pet-projects/tree/main/ibus-rime" target="_blank" rel="noopener">pet-projects 仓库</a>里的
+    <code>ibus-rime/</code> 保持一致；没有上传 <code>build/</code>、<code>*.userdb/</code>、<code>sync/</code>
+    这些本机生成物。
+  </p>
+</section>
+
+<section>
+  <h2>用起来</h2>
+  <p class="section-note">切换脚本负责环境，配置向导负责偏好，部署后立即生效。</p>
+  <pre><code>sudo pacman -S --needed ibus-rime librime-data
+bash switch-ime-rime.sh        # 装包 + 注册输入源 + 备份旧词库
+python3 rime-wizard.py         # 方案 / 候选数 / 模糊音 / 翻页键
+ibus restart</code></pre>
+  <p class="note">
+    首次使用按 <code>Super+Space</code> 切到「中文 (Rime)」，选朙月拼音，再右键托盘图标「部署」。
+    配置改完不会自动生效，也可以直接跑 <code>rime_deployer --build</code>。
+  </p>
+</section>
+
+<section>
+  <h2>踩过的坑</h2>
+  <ul class="bullets">
+    <li>设置里的齿轮点了没反应：<code>rime.xml</code> 没有 <code>&lt;setup&gt;</code> 字段，正常，改 YAML 后部署即可。</li>
+    <li>候选全是繁体：用的是 <code>luna_pinyin</code> 而不是 <code>luna_pinyin_simp</code>。</li>
+    <li>部署报 <code>end of map not found</code>：<code>algebra</code> 用了替换而不是 <code>/+</code> 追加。</li>
+    <li>用户词库不增长：部署没成功，确认 <code>build/</code> 里有对应的 <code>.schema.yaml</code>。</li>
+  </ul>
+</section>

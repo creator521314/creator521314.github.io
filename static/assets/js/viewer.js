@@ -1,7 +1,8 @@
 (function () {
       // 允许查看的项目：新增项目时在这里补一条
       var PROJECTS = {
-        'arctic-ink': { title: 'Arctic Ink', path: 'projects/arctic-ink/' }
+        'arctic-ink': { title: 'Arctic Ink', path: 'projects/arctic-ink/' },
+        'ibus-rime': { title: 'ibus-rime', path: 'projects/ibus-rime/' }
       };
 
       var codeEl = document.getElementById('code');
