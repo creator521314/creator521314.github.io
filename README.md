@@ -25,7 +25,8 @@
 │   ├── _index.html              # 首页
 │   ├── notes/
 │   │   ├── _index.md            # /notes/ 的说明
-│   │   └── <日期>-<slug>.md     # 文章，脚本生成
+│   │   ├── <日期>-<slug>.md     # 文章，脚本生成
+│   │   └── <slug>.md            # 手写文章，用 front matter 的 url 固定地址
 │   ├── projects/
 │   │   ├── _index.html          # /projects/ 列表页
 │   │   ├── arctic-ink.html      # 项目详情页
@@ -38,6 +39,7 @@
 │   └── projects/<项目>/files/   # 可下载的原始文件，原样发布
 ├── scripts/new-note.sh          # 新建文章的脚本
 ├── skills/add-project-page/     # 从 pet-project 到项目页的流程（SKILL.md）
+├── skills/add-note/             # 整理 Markdown 为文章的流程（SKILL.md）
 ├── .github/workflows/pages.yml  # 构建 + 发布
 └── README.md
 ```
@@ -74,6 +76,12 @@ hugo --minify      # 产物在 public/
 - 同一天重名会自动加 `-2`，不会覆盖。
 - 线上地址是 `/notes/<日期>-<slug>/`。
 
+**已经有一份写好的 Markdown**（教程、配置说明、踩坑记录）时，不必走脚本：直接放进
+`content/notes/<slug>.md`，补齐 front matter（`title` / `date` / `description` / `layout: note` /
+`draft: false` / `url`，长标题再给个 `linkTitle`），删掉正文第一行的大标题——`note.html`
+已经输出 `<h1>`。线上地址用 `url` 固定，以后别改文件名。完整流程与验收清单见
+[skills/add-note/SKILL.md](skills/add-note/SKILL.md)。
+
 然后编辑正文（Markdown），写完：
 
 ```bash
@@ -87,6 +95,7 @@ git push
 约定：
 
 - 排序按 front matter 的 `date` 倒序；`draft: true` 的文章不会被构建。
+- 列表页与首页文章区显示 `linkTitle`（没写则回退到 `title`）；缺 `date` 会显示零值日期，务必写全。
 - 代码块用中性样式（没有语法高亮），深浅色都跟随站点配色。
 - 图片暂不支持上传流程：临时可以放在 `static/assets/`，正文里写 `![说明](/assets/xxx.png)`；
   以后接图床，只需要把正文里的图片地址换掉。
