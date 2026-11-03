@@ -2,3 +2,5 @@ public/
 resources/
 .hugo_build.lock
 .tools/
+.workbuddy/
+.Trash-0/

@@ -7,8 +7,10 @@
   {{- range .Pages.ByDate.Reverse }}
   <li>
     <a href="{{ .RelPermalink }}">
+      {{- if not .Date.IsZero }}
       <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
-      <span class="note-title">{{ .Title }}</span>
+      {{- end }}
+      <span class="note-title">{{ .LinkTitle }}</span>
     </a>
   </li>
   {{- end }}

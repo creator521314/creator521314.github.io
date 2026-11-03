@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Serene Walker">
+  <rect width="64" height="64" rx="14" fill="#2f7d5d"/>
+  <path d="M47 12C26 16 16 30 16 46c2 2 5 3 8 3 16-1 27-17 23-37z" fill="#fbfaf7"/>
+  <path d="M20 51c6-11 14-21 26-28" stroke="#2f7d5d" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+</svg>

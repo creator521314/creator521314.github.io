@@ -56,9 +56,11 @@ magick static/assets/<slug>/cover.webp -resize 720x416 \
 ```yaml
 ---
 title: "<项目名> · <一句话> · Serene Walker"
+linkTitle: "<项目名>"           # /projects/ 列表页用的短标题
 description: "<搜索与分享用的描述>"
 og_title: "<项目名> · <一句话>"
 og_description: "<分享卡片描述>"
+og_image: "/assets/<slug>/cover.webp"   # 不写则用站点默认 og-card.png
 og_type: article
 extra_css: ["project"]          # 复用项目页样式
 url: "/projects/<slug>/"        # 决定线上地址
@@ -171,7 +173,7 @@ static/projects/<slug>/files/...
 </ul>
 ```
 
-然后在 `static/assets/js/viewer.js` 的 `PROJECTS` 里登记，否则「查看」会报错：
+然后在 `assets/js/viewer.js` 的 `PROJECTS` 里登记，否则「查看」会报错：
 
 ```js
 '<slug>': { title: '<显示名>', path: 'projects/<slug>/' }
@@ -210,8 +212,9 @@ Actions 约 1 分钟完成。之后核对线上页面与文件直链，并确认
 
 - slug 用小写短横线，页面地址由 front matter 的 `url` 决定。
 - 站内链接、图片一律写根路径（`/assets/...`、`/projects/...`）。
-- 页面样式复用 `project.css`；确实要新样式时加 `static/assets/css/<slug>.css` 并写
-  `extra_css: ["<slug>"]`。
+- 页面样式复用 `project.css`；确实要新样式时加 `assets/css/<slug>.css` 并写
+  `extra_css: ["<slug>"]`（构建时自动压缩 + 加指纹，不用手动清缓存）。
+- 封面若落在首屏以下，给 `<img>` 加 `loading="lazy"`；首屏内的图不要加。
 - 文件清单里的**大小是手写的**，换文件后要同步。
 - `content/projects/_index.html` 用来抑制 `/projects/` 自动列表页，不要删。
 - 项目目录在 `pet-projects` 仓库里，页面只做展示和下载镜像。

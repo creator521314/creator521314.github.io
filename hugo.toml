@@ -1,12 +1,15 @@
 baseURL = "https://creator521314.github.io/"
 title = "Serene Walker"
 
-# 不需要 taxonomy / RSS 自动页；section 保留给 /notes/ 列表
+# 不需要 taxonomy / RSS 自动页；section 保留给 /notes/ 与 /projects/ 列表
 disableKinds = ["taxonomy", "term", "RSS"]
 
-# 页面正文是手写 HTML，允许 html 内容格式
+# 用 git 提交时间作为最后更新时间（Actions 里 checkout 需要 fetch-depth: 0）
+enableGitInfo = true
+
+# 页面正文是手写 HTML，文章是 Markdown；只放行这两种内容格式
 [security]
-  allowContent = ['! ^text/org$']
+  allowContent = ['^text/(html|markdown)$']
 
 # 代码块不做语法高亮（站点只有深浅两套中性配色，交给 base.css 控制）
 [markup]
@@ -16,3 +19,4 @@ disableKinds = ["taxonomy", "term", "RSS"]
 [params]
   description = "简单、安静、持续记录。"
   author = "Serene Walker"
+  og_image = "/assets/og-card.png"
