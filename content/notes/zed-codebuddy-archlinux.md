@@ -222,9 +222,12 @@ which codebuddy
 
 ```json
 "env": {
-  "PATH": "/usr/local/bin:/usr/bin:/bin:/home/creator/.cargo/bin:/home/creator/.local/bin"
+  "PATH": "/usr/local/bin:/usr/bin:/bin:/home/your-user/.cargo/bin:/home/your-user/.local/bin"
 }
 ```
+
+> 把 `your-user` 换成你自己的用户名。`env.PATH` 是字面量，`$HOME` 不会在这里被展开，
+> 所以必须写绝对路径。
 
 ### 7.2 公司网络 / 需要代理
 
@@ -234,6 +237,8 @@ which codebuddy
   "HTTPS_PROXY": "http://127.0.0.1:7890"
 }
 ```
+
+> 端口按你本机代理的实际配置调整；回环地址只指向本机，不会暴露外部网络信息。
 
 ### 7.3 鉴权失败（401 / 未登录）
 
@@ -330,7 +335,7 @@ ln -sf ~/.cargo/bin/rust-analyzer /usr/local/bin/rust-analyzer
       "command": "/usr/bin/codebuddy",
       "args": ["--acp"],
       "env": {
-        "PATH": "/usr/local/bin:/usr/bin:/bin:/home/creator/.cargo/bin:/home/creator/.local/bin"
+        "PATH": "/usr/local/bin:/usr/bin:/bin:/home/your-user/.cargo/bin:/home/your-user/.local/bin"
       }
     }
   },
@@ -354,6 +359,8 @@ ln -sf ~/.cargo/bin/rust-analyzer /usr/local/bin/rust-analyzer
   }
 }
 ```
+
+> 示例里的 `your-user` 换成自己的用户名，代理端口按本机实际配置调整。
 
 改完 `zed: reload`，Agent 面板选 CodeBuddy Code 建 Thread 即可。
 

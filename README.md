@@ -39,7 +39,9 @@
 │   └── projects/<项目>/files/   # 可下载的原始文件，原样发布
 ├── scripts/new-note.sh          # 新建文章的脚本
 ├── skills/add-project-page/     # 从 pet-project 到项目页的流程（SKILL.md）
-├── skills/add-note/             # 整理 Markdown 为文章的流程（SKILL.md）
+├── skills/add-note/             # 整理 Markdown 为文章的流程
+│   ├── SKILL.md                 # front matter、正文整理、发布前敏感信息筛查、验收清单
+│   └── check-sensitive.py       # 敏感信息筛查与通用化替换（Python 3，无依赖）
 ├── .github/workflows/pages.yml  # 构建 + 发布
 └── README.md
 ```
@@ -82,7 +84,20 @@ hugo --minify      # 产物在 public/
 已经输出 `<h1>`。线上地址用 `url` 固定，以后别改文件名。完整流程与验收清单见
 [skills/add-note/SKILL.md](skills/add-note/SKILL.md)。
 
-然后编辑正文（Markdown），写完：
+然后编辑正文（Markdown）。**提交前先做敏感信息筛查**——个人主页是公开仓库，push 之后内容
+会留在 git 历史里：
+
+```bash
+python3 skills/add-note/check-sensitive.py content/notes/<slug>.md          # 只报告
+python3 skills/add-note/check-sensitive.py content/notes/<slug>.md --fix    # 自动替换
+```
+
+脚本把 `/home/<用户名>/` 这类本机路径自动换成 `your-user` 占位符（替换后记得在正文补一句
+「换成自己的用户名」）；API Key、token、私人邮箱、手机号、内网 IP 等只报告、不自动改，
+需要人工确认，真实凭据要先吊销轮换再改成占位符。规则、替换对照与豁免清单见
+[skills/add-note/SKILL.md](skills/add-note/SKILL.md)。
+
+确认无问题后再提交：
 
 ```bash
 git add -A
